@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо скопировать и вставить в данный скрипт все функции из 4 задания.
+Необходимо реализовать функцию:
+mathOperation(arg1, arg2, operation);
+Параметры:
+arg1 - первое число.
+arg2 - второе число.
+operation - строка, которая содержит один символ из: "+", "-", "*", "/".
+Функция mathOperation должна вернуть результат операции, который был передан в
+параметр operation для двух первых аргументов (arg1 и arg2).
+Функция mathOperation должна использовать для вычисления функции из 4 задания.
+
+Примеры вызова функции:
+console.log(mathOperation(5, 3, "+")); // 8
+console.log(mathOperation(5, 3, ":)")); // NaN
+
+Функции mathOperation всегда передаются корректные числа, проверки на NaN,
+Infinity делать не нужно, однако, в случае если был передан некорректный
+аргумент в параметр operation, необходимо вернуть NaN.
+
+Необходимо для всех функций прописать комментарии jsdoc https://jsdoc.app/.
+-->
+<script>
+  "use strict";
+
+  console.log(`Тест_1 функции сложения: ${mathOperation(5, 6, '+')}`);
+  console.log(`Тест_2 функции сложения: ${mathOperation(7, 8, '+')}`);
+
+  console.log(`Тест_3 функции разности: ${mathOperation(10, 15, '-')}`);
+  console.log(`Тест_4 функции разности: ${mathOperation(19, 6, '-')}`);
+  console.log(`Тест_5 функции разности: ${mathOperation(123, 123, '-')}`);
+
+  console.log(`Тест_6 функции умножения: ${mathOperation(19, 3, '*')}`);
+  console.log(`Тест_7 функции умножения: ${mathOperation(17, 36, '*')}`);
+
+  console.log(`Тест_8 функции деления: ${mathOperation(9, 17, '/')}`);
+  console.log(`Тест_9 функции деления: ${mathOperation(23, 4, '/')}`);
+
+  console.log(`Тест_10 функции смайлик: ${mathOperation(523, 523, ':)')}`);
+
+  /**
+   * Return a math operation between two numbers.
+   * @function
+   * @name mathOperation
+   * @param {number} aNum - the first number.
+   * @param {number} bNum - the second number.
+   * @param {string} operation - math operation ('+', '-', '*', '/').
+   * @returns {number} - return result - math operation between two numbers, or 
+   * return NaN in case when was typed uncorrect symbol of operation.
+   * Only correct symbol of operation can be use ('+', '-', '*', '/').
+   */
+  function mathOperation(aNum, bNum, operation) {
+    switch (operation) {
+      case '+':
+        return sum(aNum, bNum);
+      case '-':
+        return difference(aNum, bNum);
+      case '*':
+        return multiplication(aNum, bNum);
+      case '/':
+        return division(aNum, bNum);
+      default:
+        return NaN;
+    }
+  }
+
+  /**
+   * Return a sum of two numbers.
+   * @function
+   * @name sum
+   * @param {number} aNum - the first number.
+   * @param {number} bNum - the second number.
+   * @returns {number} - return result - a sum of two numbers.
+   */
+   function sum(aNum, bNum) {
+    return aNum + bNum;
+  }
+
+  /**
+   * Return a difference between two numbers.
+   * @function
+   * @name difference
+   * @param {number} aNum - the first number.
+   * @param {number} bNum - the second number.
+   * @returns {number} - return result - difference between two numbers.
+   */
+  function difference(aNum, bNum) {
+    let result;
+
+    if (aNum > bNum) {
+      result = aNum - bNum;
+    } else if (bNum > aNum) {
+      result = bNum - aNum;
+    } else if (aNum === bNum) {
+      result = 0;
+    }
+
+    return result;
+  }
+
+  /**
+   * Return a multiplication of two numbers.
+   * @function
+   * @name multiplication
+   * @param {number} aNum - the first number.
+   * @param {number} bNum - the second number.
+   * @returns {number} - return result - multiplication of two numbers.
+   */
+  function multiplication(aNum, bNum) {
+    return aNum * bNum;
+  }
+
+  /**
+   * Return a division between two numbers.
+   * @function
+   * @name division
+   * @param {number} aNum - the first number.
+   * @param {number} bNum - the second number.
+   * @returns {number} - return result - division between two numbers.
+   */
+  function division(aNum, bNum) {    
+    return aNum / bNum;
+  }
+</script>
+</body>
+</html>
