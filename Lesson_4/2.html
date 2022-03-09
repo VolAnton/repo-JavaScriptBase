@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+<body>
+<!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+<script>
+  "use strict";
+
+  const text1 = "some text 1";
+  const text2 = "some text 2";
+  const textNew1 = "new another text 1";
+  const textNew2 = "new another text 2";
+
+  function PostES5(authorName, papersText) {
+    this.authorName = authorName;
+    this.papersText = papersText;
+    this.dateAndTimeLastChange = new Date()
+    console.log(`Создан пост в es5 стиле, его автор ${this.authorName}.`);
+  }
+
+  PostES5.prototype.edit = function(newText) {
+    this.papersText = newText;
+    this.dateAndTimeLastChange = new Date();
+  }
+  
+  const post1 = new PostES5('Tom', text1);
+  const post2 = new PostES5('Bob', text2);
+
+  console.log('\n\tPostES5 было:');
+  printPost(post1);
+  console.log('');
+  printPost(post2);
+
+  setTimeout(
+    () => {
+      post1.edit(textNew1);
+      console.log('\n\tPostES5 стало:');
+      printPost(post1);
+    },
+    5 * 1000
+  );
+
+  setTimeout(
+    () => {      
+      post2.edit(textNew2);
+      console.log('\n\tPostES5 стало:');
+      printPost(post2);
+    },
+    10 * 1000
+  );  
+  
+  function AttachedPostES5(authorName, papersText) {
+    PostES5.call(this, authorName, papersText);
+    this.highlighted = false;
+  }
+
+  AttachedPostES5.prototype = Object.create(PostES5.prototype);
+  AttachedPostES5.prototype.constructor = AttachedPostES5;
+  
+  AttachedPostES5.prototype.makeTextHighlighted = function() {
+    this.dateAndTimeLastChange = new Date();
+
+    if (this.highlighted === false) {
+      this.highlighted = true;
+      console.log(`Пост автора ${this.authorName} стал подсвеченным.`);
+      return;
+    }
+    
+    this.highlighted = false;
+    console.log(`Пост автора ${this.authorName} стал неподсвеченным.`);
+  };
+
+  console.log('');
+  const attachedPost1 = new AttachedPostES5("Bill", text1);
+  const attachedPost2 = new AttachedPostES5("Fill", text2);
+
+  console.log('\n\tAttachedPostES5 было:');
+  printAttachedPost(attachedPost1);
+  console.log('');
+  printAttachedPost(attachedPost2);
+
+  setTimeout(
+    () => {
+      attachedPost1.edit(textNew1);
+      console.log('\n\tAttachedPostES5 стало:');
+      printAttachedPost(attachedPost1);
+    },
+    15 * 1000
+  );
+
+  setTimeout(
+    () => {      
+      attachedPost2.edit(textNew2);
+      console.log('\n\tAttachedPostES5 стало:');
+      printAttachedPost(attachedPost2);
+    },
+    20 * 1000
+  );
+
+  console.log('\n\tВыполняем метод "makeTextHighlighted":');
+  attachedPost1.makeTextHighlighted();
+  attachedPost2.makeTextHighlighted();
+
+  console.log('\n\tПроверяем изменение подсветки поста:');
+  printAttachedPost(attachedPost1);
+  console.log('');
+  printAttachedPost(attachedPost2);
+
+  class PostES6 {
+    constructor(authorName, papersText) {
+      this.authorName = authorName;
+      this.papersText = papersText;
+      this.dateAndTimeLastChange = new Date();
+      console.log(`Создан пост в es6 стиле, его автор ${this.authorName}.`);
+    }
+
+    edit(newText) {
+      this.papersText = newText;
+      this.dateAndTimeLastChange = new Date();
+    };
+  }
+
+  console.log('');
+  const post3 = new PostES6('Poul', text1);
+  const post4 = new PostES6('Smith', text2);
+
+  console.log('\n\tPostES6 было:');
+  printPost(post3);
+  console.log('');
+  printPost(post4);
+  
+  setTimeout(
+    () => {
+      post3.edit(textNew1);
+      console.log('\n\tPostES6 стало:');
+      printPost(post3);
+    },
+    3 * 1000
+  );
+
+  setTimeout(
+    () => {
+      post4.edit(textNew2);
+      console.log('\n\tPostES6 стало:');
+      printPost(post4);
+    },
+    8 * 1000
+  );
+
+  class AttachedPostES6 extends PostES6 {
+    constructor(authorName, papersText) {
+      super(authorName, papersText);
+      this.highlighted = false;
+    }
+
+    makeTextHighlighted() {
+      this.dateAndTimeLastChange = new Date();
+
+    if (this.highlighted === false) {
+      this.highlighted = true;
+      console.log(`Пост автора ${this.authorName} стал подсвеченным.`);
+      return;
+    }
+    
+    this.highlighted = false;
+    console.log(`Пост автора ${this.authorName} стал неподсвеченным.`);
+    }
+  }
+
+  console.log('');
+  const attachedPost5 = new AttachedPostES6('Sam', text1);
+  const attachedPost6 = new AttachedPostES6('Din', text2);
+
+  console.log('\n\tAttachedPostES6 было:');
+  printAttachedPost(attachedPost5);
+  console.log('');
+  printAttachedPost(attachedPost6);
+
+  console.log('\n\tВыполняем метод "makeTextHighlighted":');
+  attachedPost5.makeTextHighlighted();
+  attachedPost6.makeTextHighlighted();
+
+  console.log('\n\tПроверяем изменение подсветки поста:');
+  printAttachedPost(attachedPost5);
+  console.log('');
+  printAttachedPost(attachedPost6);
+
+  setTimeout(
+    () => {
+      attachedPost5.edit(textNew1);
+      console.log('\n\tAttachedPostES6 стало:');
+      printAttachedPost(attachedPost5);
+    },
+    13 * 1000
+  );
+
+  setTimeout(
+    () => {      
+      attachedPost6.edit(textNew2);
+      console.log('\n\tAttachedPostES6 стало:');
+      printAttachedPost(attachedPost6);
+    },
+    18 * 1000
+  );
+
+  function printPost(post) {
+    console.log(`Автор поста: ${post.authorName};
+Текст поста: "${post.papersText}";\nВремя последнего редактирования: ${post.dateAndTimeLastChange}.`);
+}
+
+function printAttachedPost(attachedPost) {
+  console.log(`Автор поста: ${attachedPost.authorName};
+Текст поста: "${attachedPost.papersText}";\nПост подсвечен: ${attachedPost.highlighted === true ? "Да" : "Нет"};
+Время последнего редактирования: ${attachedPost.dateAndTimeLastChange}.`);
+}
+</script>
+</body>
+</html>
